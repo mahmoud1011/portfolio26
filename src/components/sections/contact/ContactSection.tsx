@@ -4,6 +4,7 @@ import { Container } from "@/components/layout/Container";
 import { Section } from "@/components/layout/Section";
 import { AnimateIn } from "@/components/shared/AnimateIn";
 import { useCopyToClipboard } from "@/hooks/useCopyToClipboard";
+import { withBasePath } from "@/lib/utils";
 import { Copy, Check, Download } from "lucide-react";
 
 const EMAIL = "mahmoudanwar75888@gmail.com";
@@ -86,7 +87,7 @@ export function ContactSection() {
                  className="inline-flex items-center gap-2 px-4 py-2.5 text-sm font-medium rounded-sm border border-border-strong text-text-secondary hover:text-accent hover:border-accent-border hover:bg-accent-muted transition-all duration-200 focus-visible:outline-none focus-visible:shadow-focus">
                 <GameControllerIcon size={15} /> Itch.io
               </a>
-              <a role="listitem" href="/cv/mahmoud-anwar-cv.pdf" target="_blank" rel="noopener noreferrer" aria-label="Download CV as PDF"
+              <a role="listitem" href={withBasePath("/cv/mahmoud-anwar-cv.pdf")} target="_blank" rel="noopener noreferrer" aria-label="Download CV as PDF"
                  className="inline-flex items-center gap-2 px-4 py-2.5 text-sm font-medium rounded-sm text-text-secondary hover:text-text-primary hover:bg-bg-elevated transition-all duration-200 focus-visible:outline-none focus-visible:shadow-focus">
                 <Download size={15} /> Download CV
               </a>

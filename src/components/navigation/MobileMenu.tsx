@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { cn } from "@/lib/utils";
+import { cn, withBasePath } from "@/lib/utils";
 
 interface MobileMenuProps {
   isOpen: boolean;
@@ -78,7 +78,7 @@ export function MobileMenu({ isOpen, onClose, links, onNavClick }: MobileMenuPro
 
         <div className="mt-auto pt-6 border-t border-border-subtle flex flex-col gap-3">
           <a
-            href="/cv/mahmoud-anwar-cv.pdf"
+            href={withBasePath("/cv/mahmoud-anwar-cv.pdf")}
             target="_blank"
             rel="noopener noreferrer"
             tabIndex={isOpen ? 0 : -1}

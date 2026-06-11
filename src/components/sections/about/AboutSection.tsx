@@ -3,6 +3,7 @@ import { Container } from "@/components/layout/Container";
 import { Section } from "@/components/layout/Section";
 import { SectionHeading } from "@/components/shared/SectionHeading";
 import { AnimateIn } from "@/components/shared/AnimateIn";
+import { withBasePath } from "@/lib/utils";
 
 const focusAreas = [
   "Gameplay Architecture",
@@ -24,7 +25,7 @@ export function AboutSection() {
               <div className="relative mx-auto md:mx-0 w-full max-w-[260px]">
                 <div className="relative aspect-[4/5] rounded-card-lg overflow-hidden border border-border-default shadow-card">
                   <Image
-                    src="/images/profile/mahmoud.jpg"
+                    src={withBasePath("/images/profile/mahmoud.jpg")}
                     alt="Mahmoud Anwar — Unity Gameplay Programmer"
                     fill
                     className="object-cover object-top"

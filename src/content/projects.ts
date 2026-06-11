@@ -1,3 +1,4 @@
+import { withBasePath } from "@/lib/utils";
 import type { Project } from "@/types";
 
 export const projects: Project[] = [
@@ -37,13 +38,13 @@ export const projects: Project[] = [
     media: [
       {
         type: "image",
-        src: "/images/projects/rust/hero.jpg",
+        src: withBasePath("/images/projects/rust/hero.jpg"),
         alt: "Rust: Console Edition — official key art showing an armed survivor in post-apocalyptic landscape",
         isHero: true,
       },
       {
         type: "image",
-        src: "/images/projects/rust/landscape.jpg",
+        src: withBasePath("/images/projects/rust/landscape.jpg"),
         alt: "Rust: Console Edition — in-game coastal landscape at sunset rendered on console hardware",
       },
     ],
@@ -95,7 +96,7 @@ export const projects: Project[] = [
     media: [
       {
         type: "image",
-        src: "/images/projects/ar-pipeline/hero.jpg",
+        src: withBasePath("/images/projects/ar-pipeline/hero.jpg"),
         alt: "AR face tracking application showing real-time 3D asset overlay on mobile device",
         isHero: true,
       },
@@ -141,7 +142,7 @@ export const projects: Project[] = [
     media: [
       {
         type: "image",
-        src: "/images/projects/rickshaw-vibes/hero.png",
+        src: withBasePath("/images/projects/rickshaw-vibes/hero.png"),
         alt: "Rickshaw Vibes endless runner — winged rickshaw racing through colorful city streets",
         isHero: true,
       },
@@ -187,7 +188,7 @@ export const projects: Project[] = [
     media: [
       {
         type: "image",
-        src: "/images/projects/ryder/hero.jpg",
+        src: withBasePath("/images/projects/ryder/hero.jpg"),
         alt: "RYDER action RPG — third-person combat showing player character fighting multiple enemies",
         isHero: true,
       },
