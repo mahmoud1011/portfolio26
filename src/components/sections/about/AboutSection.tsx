@@ -24,7 +24,7 @@ export function AboutSection() {
               <div className="relative mx-auto md:mx-0 w-full max-w-[260px]">
                 <div className="relative aspect-[4/5] rounded-card-lg overflow-hidden border border-border-default shadow-card">
                   <Image
-                    src="/public/images/profile/mahmoud.jpg"
+                    src="/images/profile/mahmoud.jpg"
                     alt="Mahmoud Anwar — Unity Gameplay Programmer"
                     fill
                     className="object-cover object-top"
