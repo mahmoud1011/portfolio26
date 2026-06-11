@@ -100,7 +100,6 @@ export function ContactSection() {
             <span className="flex items-center justify-center w-7 h-7 rounded-md bg-accent-muted border border-accent-border font-mono text-[10px] font-bold text-accent">MA</span>
             <p className="font-mono text-xs text-text-muted">© {new Date().getFullYear()} Mahmoud Anwar</p>
           </div>
-          <p className="font-mono text-xs text-text-muted">Built with Next.js · Tailwind CSS</p>
         </div>
       </Container>
     </Section>

@@ -8,7 +8,7 @@ export const siteMetadata: SiteMetadata = {
   ogImage: "/og-image.jpg",
   keywords: [
     "Unity Gameplay Programmer",
-    "Game Developer portfolio26",
+    "Game Developer portfolio",
     "Unity C# Developer",
     "HDRP Unity",
     "Console Game Developer",
