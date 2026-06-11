@@ -7,8 +7,9 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
   pages: write
+  id-token: write
 
 jobs:
   build-and-deploy:
@@ -32,12 +33,13 @@ jobs:
         env:
           NODE_ENV: production
 
-      - name: Deploy to GitHub Pages branch
-        uses: peaceiris/actions-gh-pages@v4
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v4
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v2
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./out
-          publish_branch: gh-pages
-          allow_empty_commit: true
-          user_name: github-actions[bot]
-          user_email: github-actions[bot]@users.noreply.github.com
+          path: out
+
+      - name: Deploy to GitHub Pages
+        uses: actions/deploy-pages@v1
