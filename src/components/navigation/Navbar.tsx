@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { cn, withBasePath } from "@/lib/utils";
+import { cn } from "@/lib/utils";
 import { MobileMenu } from "./MobileMenu";
 
 const navLinks = [
@@ -108,7 +108,7 @@ export function Navbar() {
                 );
               })}
               <a
-                href={withBasePath("/cv/mahmoud-anwar-cv.pdf")}
+                href="/cv/mahmoud-anwar-cv.pdf"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="ml-3 inline-flex items-center px-4 py-2 text-sm font-medium text-bg-primary bg-accent rounded-sm hover:bg-accent-hover transition-all duration-200 shadow-accent-sm hover:shadow-accent focus-visible:outline-none focus-visible:shadow-focus"

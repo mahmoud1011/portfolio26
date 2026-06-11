@@ -1,10 +1,15 @@
-export interface ProjectMedia {
+export interface ProjectMediaItem {
   type: "video" | "image" | "placeholder";
   src?: string;
   poster?: string;
   alt: string;
   youtubeId?: string;
+  /** Marks the default item shown first. If none is set, the first item is used. */
+  isHero?: boolean;
 }
+
+/** @deprecated alias kept for backward compatibility */
+export type ProjectMedia = ProjectMediaItem;
 
 export interface ProjectSystem {
   name: string;
@@ -29,7 +34,7 @@ export interface Project {
   description: string;
   systems: ProjectSystem[];
   techTags: string[];
-  media: ProjectMedia;
+  media: ProjectMediaItem[];
   links: ProjectLink[];
   featured: boolean;
   accentVariant: "teal" | "gold";

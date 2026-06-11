@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { siteMetadata, structuredData } from "@/content/meta";
-import { withBasePath } from "@/lib/utils";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteMetadata.url),
@@ -64,8 +63,8 @@ export default function RootLayout({
           href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Fira+Code:wght@400;500&display=swap"
           rel="stylesheet"
         />
-        <link rel="icon" href={withBasePath("/favicon.svg")} type="image/svg+xml" />
-        <link rel="icon" href={withBasePath("/favicon.ico")} sizes="any" />
+        <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+        <link rel="icon" href="/favicon.ico" sizes="any" />
         <meta name="theme-color" content="#0D0F14" />
         <script
           type="application/ld+json"

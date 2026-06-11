@@ -3,19 +3,28 @@
 import { useEffect, useRef, useState } from "react";
 
 interface UseInViewOptions {
-  threshold?: number;
-  rootMargin?: string;
+  /** Symmetric trigger band as a fraction of viewport height, applied to top and bottom equally. */
+  margin?: number;
+  /** Reveal only once and never reverse (prevents flashing on scroll-up). Default true. */
   once?: boolean;
 }
 
-export function useInView(options: UseInViewOptions = {}) {
-  const { threshold = 0.1, rootMargin = "0px 0px -60px 0px", once = true } = options;
+/**
+ * Reveals an element when it enters a symmetric trigger band centered in the
+ * viewport. Because the top and bottom margins are equal, the element animates
+ * at the same relative position whether the user is scrolling down or up.
+ */
+export function useInView({ margin = 0.12, once = true }: UseInViewOptions = {}) {
   const ref = useRef<HTMLElement>(null);
   const [inView, setInView] = useState(false);
 
   useEffect(() => {
     const element = ref.current;
     if (!element) return;
+
+    // Symmetric rootMargin → identical trigger point in both scroll directions.
+    const pct = Math.round(margin * 100);
+    const rootMargin = `-${pct}% 0px -${pct}% 0px`;
 
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -26,12 +35,12 @@ export function useInView(options: UseInViewOptions = {}) {
           setInView(false);
         }
       },
-      { threshold, rootMargin }
+      { rootMargin, threshold: 0 }
     );
 
     observer.observe(element);
     return () => observer.disconnect();
-  }, [threshold, rootMargin, once]);
+  }, [margin, once]);
 
   return { ref, inView };
 }
