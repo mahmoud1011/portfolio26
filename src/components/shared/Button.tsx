@@ -20,7 +20,7 @@ const variantStyles = {
   primary:
     "bg-accent text-bg-primary font-semibold hover:bg-accent-hover shadow-accent-sm hover:shadow-accent",
   secondary:
-    "bg-transparent border border-border-strong text-text-primary hover:border-accent hover:text-accent hover:shadow-accent-sm",
+    "bg-bg-elevated/60 border border-border-strong text-text-primary hover:border-accent-border hover:text-accent hover:bg-accent-muted",
   ghost:
     "bg-transparent text-text-secondary hover:text-text-primary hover:bg-bg-elevated",
 };
@@ -45,8 +45,8 @@ export function Button({
   "aria-label": ariaLabel,
 }: ButtonProps) {
   const classes = cn(
-    "inline-flex items-center justify-center rounded-sm font-medium",
-    "transition-all duration-250 ease-standard",
+    "group inline-flex items-center justify-center rounded-sm font-medium",
+    "transition-all duration-200 ease-standard",
     "focus-visible:outline-none focus-visible:shadow-focus",
     "disabled:opacity-40 disabled:pointer-events-none",
     variantStyles[variant],
@@ -56,12 +56,12 @@ export function Button({
 
   const content = (
     <>
-      {icon && iconPosition === "left" && (
-        <span className="shrink-0">{icon}</span>
-      )}
+      {icon && iconPosition === "left" && <span className="shrink-0">{icon}</span>}
       {children}
       {icon && iconPosition === "right" && (
-        <span className="shrink-0">{icon}</span>
+        <span className="shrink-0 transition-transform duration-200 group-hover:translate-x-0.5">
+          {icon}
+        </span>
       )}
     </>
   );
@@ -69,13 +69,7 @@ export function Button({
   if (href) {
     if (external) {
       return (
-        <a
-          href={href}
-          target="_blank"
-          rel="noopener noreferrer"
-          className={classes}
-          aria-label={ariaLabel}
-        >
+        <a href={href} target="_blank" rel="noopener noreferrer" className={classes} aria-label={ariaLabel}>
           {content}
         </a>
       );
@@ -88,12 +82,7 @@ export function Button({
   }
 
   return (
-    <button
-      onClick={onClick}
-      disabled={disabled}
-      className={classes}
-      aria-label={ariaLabel}
-    >
+    <button onClick={onClick} disabled={disabled} className={classes} aria-label={ariaLabel}>
       {content}
     </button>
   );
