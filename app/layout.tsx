@@ -18,7 +18,7 @@ export const metadata: Metadata = {
     url: siteMetadata.url,
     title: siteMetadata.title,
     description: siteMetadata.description,
-    siteName: "Mahmoud Anwar Portfolio",
+    siteName: "Mahmoud Anwar portfolio26",
     images: [
       {
         url: siteMetadata.ogImage,

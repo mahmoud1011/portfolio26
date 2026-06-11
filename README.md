@@ -1,6 +1,6 @@
-# Mahmoud Anwar — Portfolio
+# Mahmoud Anwar — portfolio26
 
-Unity Gameplay Programmer portfolio. Built with Next.js 15, TypeScript, Tailwind CSS. Deployed to GitHub Pages via GitHub Actions.
+Unity Gameplay Programmer portfolio26. Built with Next.js 15, TypeScript, Tailwind CSS. Deployed to GitHub Pages via GitHub Actions.
 
 ## Stack
 
@@ -18,18 +18,6 @@ npm run dev
 ```
 
 Visit `http://localhost:3000`
-
-## Production build
-
-```bash
-npm run build
-```
-
-Output is in `./out/` — ready for static hosting.
-
-## Deployment
-
-Push to `main` branch. GitHub Actions builds and deploys automatically to `https://mahmoud1011.github.io/portfolio/`.
 
 ### One-time GitHub setup required:
 

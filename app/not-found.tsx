@@ -32,7 +32,7 @@ export default function NotFound() {
           color: "#0D0F14",
         }}
       >
-        Back to portfolio
+        Back to portfolio26
       </Link>
     </main>
   );

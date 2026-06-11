@@ -6,7 +6,7 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export function getBasePath(): string {
-  return process.env.NODE_ENV === "production" ? "/portfolio" : "";
+  return process.env.NODE_ENV === "production" ? "/portfolio26" : "";
 }
 
 export function withBasePath(path: string): string {
