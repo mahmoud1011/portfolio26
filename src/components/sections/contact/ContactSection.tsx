@@ -68,8 +68,7 @@ export function ContactSection() {
               Let&apos;s Talk
             </h2>
             <p className="text-base text-text-secondary leading-relaxed mb-8">
-              Open to full-time roles, internships, and freelance contracts.
-              Response time under 24 hours.
+              Open to full-time roles, remote, and freelance contracts.
             </p>
           </AnimateIn>
 
@@ -115,7 +114,7 @@ export function ContactSection() {
                   external
                   icon={<LinkedInIcon size={15} />}
                   iconPosition="left"
-                  aria-label="View LinkedIn profile (opens in new tab)"
+                  aria-label="View LinkedIn profile"
                 >
                   LinkedIn
                 </Button>
@@ -154,9 +153,6 @@ export function ContactSection() {
         <div className="mt-16 pt-6 border-t border-border-subtle flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
           <p className="font-mono text-xs text-text-muted">
             © {new Date().getFullYear()} Mahmoud Anwar
-          </p>
-          <p className="font-mono text-xs text-text-muted">
-            Built with Next.js · Deployed on GitHub Pages
           </p>
         </div>
       </Container>
