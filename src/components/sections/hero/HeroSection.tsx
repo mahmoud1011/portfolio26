@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import { Container } from "@/components/layout/Container";
 import { Button } from "@/components/shared/Button";
-import { cn } from "@/lib/utils";
+import { cn, withBasePath } from "@/lib/utils";
 import { ArrowRight, Download } from "lucide-react";
 
 const specializations = [
@@ -119,7 +119,7 @@ export function HeroSection() {
                 View Projects
                 <ArrowRight size={16} aria-hidden="true" className="transition-transform duration-200 group-hover:translate-x-0.5" />
               </button>
-              <Button variant="secondary" size="lg" href="/cv/mahmoud-anwar-cv.pdf" external icon={<Download size={16} />} iconPosition="right">
+              <Button variant="secondary" size="lg" href={withBasePath("/cv/mahmoud-anwar-cv.pdf")} external icon={<Download size={16} />} iconPosition="right">
                 Download CV
               </Button>
             </div>
@@ -132,7 +132,7 @@ export function HeroSection() {
               <div className="relative rounded-card-lg overflow-hidden border border-border-default shadow-card-hover">
                 <div className="relative aspect-[4/5]">
                   <Image
-                    src="/images/profile/mahmoud.jpg"
+                    src={withBasePath("/images/profile/mahmoud.jpg")}
                     alt="Mahmoud Anwar"
                     fill
                     priority

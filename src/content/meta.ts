@@ -1,11 +1,12 @@
+import { withBasePath } from "@/lib/utils";
 import type { SiteMetadata, ContactLink } from "@/types";
 
 export const siteMetadata: SiteMetadata = {
   title: "Mahmoud Anwar — Unity Gameplay Programmer",
   description:
     "Gameplay systems engineer specializing in Unity, HDRP, AI architecture, and console development. Previously shipped Rust: Console Edition at Double Eleven.",
-  url: "https://mahmoud1011.github.io/portfolio2626",
-  ogImage: "/og-image.jpg",
+  url: "https://mahmoud1011.github.io/portfolio26",
+  ogImage: withBasePath("/og-image.jpg"),
   keywords: [
     "Unity Gameplay Programmer",
     "Game Developer portfolio26",

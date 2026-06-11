@@ -1,3 +1,4 @@
+import { withBasePath } from "@/lib/utils";
 import type { Project } from "@/types";
 
 export const projects: Project[] = [
@@ -36,7 +37,7 @@ export const projects: Project[] = [
     techTags: ["Unity HDRP", "HLSL", "C#", "PIX", "Razor", "PS5", "Xbox Series", "Multiplayer"],
     media: {
       type: "image",
-      src: "/images/projects/rust/hero.jpg",
+      src: withBasePath("/images/projects/rust/hero.jpg"),
       alt: "Rust: Console Edition — official key art showing an armed survivor in post-apocalyptic landscape",
     },
     links: [
@@ -86,7 +87,7 @@ export const projects: Project[] = [
     techTags: ["Unity", "AR Foundation", "AWS S3", "C#", "Python", "iOS", "Android", "Asset Bundles"],
     media: {
       type: "image",
-      src: "/images/projects/ar-pipeline/hero.jpg",
+      src: withBasePath("/images/projects/ar-pipeline/hero.jpg"),
       alt: "AR face tracking application showing real-time 3D asset overlay on mobile device",
     },
     links: [],
@@ -129,7 +130,7 @@ export const projects: Project[] = [
     techTags: ["Unity", "Firebase", "C#", "Deep Linking", "REST API", "Android", "iOS", "Google Play Services"],
     media: {
       type: "image",
-      src: "/images/projects/rickshaw-vibes/hero.png",
+      src: withBasePath("/images/projects/rickshaw-vibes/hero.png"),
       alt: "Rickshaw Vibes endless runner — winged rickshaw racing through colorful city streets",
     },
     links: [],
@@ -172,7 +173,7 @@ export const projects: Project[] = [
     techTags: ["Unity", "C#", "FSM", "ScriptableObjects", "HDRP", "Design Patterns", "Editor Tools", "NavMesh"],
     media: {
       type: "image",
-      src: "/images/projects/ryder/hero.jpg",
+      src: withBasePath("/images/projects/ryder/hero.jpg"),
       alt: "RYDER action RPG — third-person combat showing player character fighting multiple enemies",
     },
     links: [
