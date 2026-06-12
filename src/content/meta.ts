@@ -35,6 +35,12 @@ export const contactLinks: ContactLink[] = [
     external: true,
   },
   {
+    label: "GitHub",
+    href: "https://github.com/mahmoud1011",
+    icon: "github",
+    external: true,
+  },
+  {
     label: "Itch.io",
     href: "https://anwar10.itch.io/",
     icon: "itch",
@@ -62,6 +68,7 @@ export const structuredData = {
   },
   sameAs: [
     "https://www.linkedin.com/in/mahmoud-anwar10",
+    "https://github.com/mahmoud1011",
     "https://anwar10.itch.io/",
   ],
 };
