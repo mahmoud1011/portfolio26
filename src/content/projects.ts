@@ -234,7 +234,7 @@ export const projects: Project[] = [
     links: [
       {
         label: "View on Itch.io",
-        href: "https://anwar10.itch.io/",
+        href: "https://uowmgames.itch.io/ryder",
         external: true,
         variant: "secondary",
       },
