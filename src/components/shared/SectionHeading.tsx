@@ -1,4 +1,5 @@
 import { cn } from "@/lib/utils";
+import { AccentLine } from "./AccentLine";
 
 interface SectionHeadingProps {
   label?: string;
@@ -21,7 +22,7 @@ export function SectionHeading({
     <div className={cn("mb-12 lg:mb-14", align === "center" && "text-center mx-auto", className)}>
       {label && (
         <div className={cn("flex items-center gap-2.5 mb-4", align === "center" && "justify-center")}>
-          <span className="w-6 h-px bg-accent" aria-hidden="true" />
+          <AccentLine />
           <p className="font-mono text-xs font-medium tracking-widest uppercase text-accent">
             {label}
           </p>

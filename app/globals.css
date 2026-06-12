@@ -137,6 +137,20 @@
     border: 2px solid var(--color-bg-primary);
   }
   ::-webkit-scrollbar-thumb:hover { background: var(--color-border-strong); }
+
+  /* Film grain — a single static SVG-noise layer at ~2.5% opacity.
+     Primary job: dithering the dark radial gradients to kill banding.
+     Fixed, composited once, never repaints, never intercepts input. */
+  body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    pointer-events: none;
+    opacity: 0.025;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 160 160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-repeat: repeat;
+  }
 }
 
 /* ============================================================ COMPONENTS ============================================================ */
@@ -199,6 +213,22 @@
       linear-gradient(to bottom, rgba(255, 255, 255, 0.025), transparent 120px),
       var(--color-bg-secondary);
   }
+
+  /* Sequenced child reveal — paired with <Stagger>. Children declare their
+     order via --i; the group declares pacing via --stagger-base/step.
+     Compositor-only properties (opacity + transform). */
+  .stagger-group .stagger-item {
+    opacity: 0;
+    transform: translateY(6px);
+    transition:
+      opacity 0.45s var(--ease-decelerate),
+      transform 0.45s var(--ease-decelerate);
+    transition-delay: calc(var(--stagger-base, 120ms) + var(--i, 0) * var(--stagger-step, 50ms));
+  }
+  .stagger-group[data-inview="true"] .stagger-item {
+    opacity: 1;
+    transform: none;
+  }
 }
 
 /* ============================================================ UTILITIES ============================================================ */
@@ -221,6 +251,7 @@
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+    transition-delay: 0ms !important;
     scroll-behavior: auto !important;
   }
 }

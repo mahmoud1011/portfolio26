@@ -4,6 +4,7 @@ interface TagProps {
   label: string;
   variant?: "default" | "accent" | "gold" | "muted";
   className?: string;
+  style?: React.CSSProperties;
 }
 
 const variantStyles = {
@@ -13,9 +14,10 @@ const variantStyles = {
   muted: "bg-transparent border-border-subtle text-text-muted",
 };
 
-export function Tag({ label, variant = "default", className }: TagProps) {
+export function Tag({ label, variant = "default", className, style }: TagProps) {
   return (
     <span
+      style={style}
       className={cn(
         "inline-flex items-center px-2.5 py-1 rounded-sm border",
         "font-mono text-xs font-medium leading-none",

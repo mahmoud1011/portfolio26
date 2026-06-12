@@ -1,5 +1,6 @@
 import { Navbar } from "@/components/navigation/Navbar";
 import { ScrollProgress } from "@/components/shared/ScrollProgress";
+import { ConsoleSignature } from "@/components/shared/ConsoleSignature";
 import { HeroSection } from "@/components/sections/hero/HeroSection";
 import { ExperienceRibbon } from "@/components/sections/experience/ExperienceRibbon";
 import { ProjectsSection } from "@/components/sections/projects/ProjectsSection";
@@ -10,6 +11,7 @@ import { ContactSection } from "@/components/sections/contact/ContactSection";
 export default function Home() {
   return (
     <>
+      <ConsoleSignature />
       <ScrollProgress />
       <Navbar />
       <main id="main-content">

@@ -3,6 +3,7 @@
 import { Container } from "@/components/layout/Container";
 import { Section } from "@/components/layout/Section";
 import { AnimateIn } from "@/components/shared/AnimateIn";
+import { AccentLine } from "@/components/shared/AccentLine";
 import { useCopyToClipboard } from "@/hooks/useCopyToClipboard";
 import { withBasePath } from "@/lib/utils";
 import { Copy, Check, Download } from "lucide-react";
@@ -51,15 +52,15 @@ export function ContactSection() {
         <AnimateIn direction="up">
           <div className="max-w-2xl mx-auto text-center">
             <div className="flex items-center justify-center gap-2.5 mb-4">
-              <span className="w-6 h-px bg-accent" aria-hidden="true" />
+              <AccentLine />
               <p className="font-mono text-xs font-medium tracking-widest uppercase text-accent">Get in touch</p>
-              <span className="w-6 h-px bg-accent" aria-hidden="true" />
+              <AccentLine className="origin-right" />
             </div>
             <h2 id="contact-heading" className="text-h1 font-bold text-text-primary mb-4">
               Let&apos;s build something great
             </h2>
             <p className="text-base text-text-secondary leading-relaxed mb-10 max-w-lg mx-auto">
-              Open to full-time studio roles, internships, and freelance contracts. I usually reply within a day.
+              Open to part/full-time studio roles, remote, and freelance contracts. I usually reply within a day.
             </p>
           </div>
         </AnimateIn>
@@ -113,6 +114,9 @@ export function ContactSection() {
             <span className="flex items-center justify-center w-7 h-7 rounded-md bg-accent-muted border border-accent-border font-mono text-[10px] font-bold text-accent">MA</span>
             <p className="font-mono text-xs text-text-muted">© {new Date().getFullYear()} Mahmoud Anwar</p>
           </div>
+          <p className="font-mono text-[11px] text-text-faint tracking-wide">
+            static export · no trackers · hand-built
+          </p>
         </div>
       </Container>
     </Section>
