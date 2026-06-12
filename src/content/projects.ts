@@ -48,6 +48,16 @@ export const projects: Project[] = [
         alt: "Rust: Console Edition — in-game coastal landscape at sunset rendered on console hardware",
       },
       {
+        type: "image",
+        src: withBasePath("/images/projects/rust/media.jpg"),
+        alt: "Rust: Console Edition — in-game screenshot showing coastal combat action",
+      },
+      {
+        type: "image",
+        src: withBasePath("/images/projects/rust/media01.jpg"),
+        alt: "Rust: Console Edition — gameplay screenshot with player and environment detail",
+      },
+      {
         type: "video",
         youtubeId: "D6c3JgpXY7A",
         poster: withBasePath("/images/projects/rust/hero.jpg"),
