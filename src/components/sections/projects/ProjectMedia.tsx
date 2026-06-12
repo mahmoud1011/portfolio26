@@ -51,9 +51,10 @@ function MediaSurface({
     );
   }
 
-  if (item.type === "video" && item.youtubeId) {
+  if (item.type === "video") {
     const isPlaying = playingId === index;
-    if (isPlaying) {
+
+    if (item.youtubeId && isPlaying) {
       return (
         <iframe
           src={`https://www.youtube.com/embed/${item.youtubeId}?autoplay=1&rel=0&modestbranding=1`}
@@ -65,6 +66,22 @@ function MediaSurface({
         />
       );
     }
+
+    if (item.src && isPlaying) {
+      return (
+        <video
+          src={item.src}
+          poster={item.poster}
+          controls
+          autoPlay
+          loop
+          muted
+          playsInline
+          className="absolute inset-0 w-full h-full object-cover"
+        />
+      );
+    }
+
     return (
       <div className="absolute inset-0 group/media cursor-pointer">
         {item.poster && (

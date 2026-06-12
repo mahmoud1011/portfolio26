@@ -208,13 +208,28 @@ export const projects: Project[] = [
         alt: "RYDER action RPG — third-person combat showing player character fighting multiple enemies",
         isHero: true,
       },
-      // Example of a gameplay video entry. Replace youtubeId with a real ID to enable.
-      // {
-      //   type: "video",
-      //   youtubeId: "REPLACE_ME",
-      //   poster: "/images/projects/ryder/hero.jpg",
-      //   alt: "RYDER combat systems gameplay walkthrough",
-      // },
+      {
+        type: "image",
+        src: withBasePath("/images/projects/ryder/media01.png"),
+        alt: "RYDER gameplay UI and combat action scene",
+      },
+      {
+        type: "image",
+        src: withBasePath("/images/projects/ryder/media02.png"),
+        alt: "RYDER exploration and enemy encounter showcase",
+      },
+      {
+        type: "video",
+        src: withBasePath("/images/projects/ryder/media_video.webm"),
+        poster: withBasePath("/images/projects/ryder/hero.jpg"),
+        alt: "RYDER action RPG gameplay walkthrough",
+      },
+      {
+        type: "video",
+        src: withBasePath("/images/projects/ryder/media_video01.webm"),
+        poster: withBasePath("/images/projects/ryder/hero.jpg"),
+        alt: "RYDER systems combat and animation demo",
+      },
     ],
     links: [
       {
