@@ -49,7 +49,7 @@ export const projects: Project[] = [
       },
       {
         type: "video",
-        youtubeId: "D6c3JpgXY7A",
+        youtubeId: "D6c3JgpXY7A",
         poster: withBasePath("/images/projects/rust/hero.jpg"),
         alt: "Rust: Console Edition gameplay trailer on YouTube",
       },
