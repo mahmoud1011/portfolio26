@@ -78,49 +78,65 @@ export const projects: Project[] = [
   },
   {
     id: "ar-asset-pipeline",
-    contextLabel: "Professional · Cross-Platform · Production Shipped",
+    contextLabel: "Professional · iOS & Android · Shipped SocialFi Platform",
     studio: "TORUM TECHNOLOGY SDN. BHD.",
     year: "2024",
-    title: "AR Asset Pipeline & Face Tracking App",
-    role: "AR Unity Developer",
+    title: "Torum — AR NFT Social App",
+    role: "AR Software Engineer · Core Team",
     platforms: ["iOS", "Android"],
     description:
-      "Designed and shipped a cross-platform AR face tracking application for iOS and Android, built on a custom automated asset pipeline that streamlined delivery of 3D assets from production to device. Engineered the full stack: Unity runtime, native iOS integration, and a cloud-backed asset management system using AWS S3 and CDN.",
+      "Core AR engineer on Torum's flagship V2 — a SocialFi platform best described as 'Instagram for NFTs', where users bring their NFT collectibles to life as real-time AR face filters. Owned the AR experience end to end: a face-tracking runtime that maps 3D NFT avatars (Pudgy Penguins, Cool Cats, Meebits, Moonbirds, Sappy Seals) and the ChubbyCub mascot onto a user's face live, backed by a fully automated Blender-to-CDN asset pipeline so new collections ship to devices with no app update.",
     systems: [
       {
-        name: "Automated Asset Pipeline",
+        name: "Real-Time AR Face Tracking",
         description:
-          "Built a workflow automating the full cycle from 3D asset creation in Blender to CDN deployment in Unity via AWS S3, eliminating manual asset management.",
+          "Built the AR face-tracking runtime in Unity AR Foundation (ARKit / ARCore), rigging and rendering 3D NFT avatars onto the user's face live across iOS and Android via a native iOS plugin bridge.",
       },
       {
-        name: "AR Face Tracking Runtime",
+        name: "Automated NFT Asset Pipeline",
         description:
-          "Implemented real-time face tracking via Unity AR Foundation across Android and iOS with native iOS plugin bridge integration.",
+          "Engineered an end-to-end pipeline taking 3D NFT collections from Blender through Python automation to AWS S3 + CDN, dynamically streamed into Unity as AssetBundles — new NFT filters go live without a client release.",
       },
       {
-        name: "AWS SDK Integration",
+        name: "Dynamic Content via AWS SDK",
         description:
-          "Integrated AWS SDK into Unity to manage dynamic asset syncing between the CDN and client device at runtime.",
+          "Integrated the AWS SDK into Unity to sync and cache NFT avatar assets between the CDN and device at runtime, keeping the in-app library of face filters always current.",
       },
       {
-        name: "Python/Blender Automation",
+        name: "ChubbyCub Mascot & Branded Filters",
         description:
-          "Created Python scripting plugins for Blender to procedurally compose and batch-export 3D assets directly into the Unity pipeline.",
+          "Implemented Torum's ChubbyCub mascot and branded AR filters end to end — from rigged 3D source through the pipeline to a polished, shippable in-app experience.",
       },
     ],
-    techTags: ["Unity", "AR Foundation", "AWS S3", "C#", "Python", "iOS", "Android", "Asset Bundles"],
+    techTags: ["Unity", "AR Foundation", "ARKit", "ARCore", "C#", "Python", "Blender", "AWS S3", "Asset Bundles", "iOS Native"],
     media: [
       {
         type: "image",
-        src: withBasePath("/images/projects/ar-pipeline/hero.jpg"),
-        alt: "AR face tracking application showing real-time 3D asset overlay on mobile device",
+        src: withBasePath("/images/projects/torum/ar-screen.jpg"),
+        alt: "Torum app live AR face filter turning a user's face into a 3D Pudgy Penguin NFT avatar",
         isHero: true,
+      },
+      {
+        type: "video",
+        src: withBasePath("/images/projects/torum/landing-intro.webm"),
+        poster: withBasePath("/images/projects/torum/landing-poster.jpg"),
+        alt: "Torum brand and landing-page intro motion",
+      },
+      {
+        type: "image",
+        src: withBasePath("/images/projects/torum/nft-penguin.jpg"),
+        alt: "3D-rendered Pudgy Penguin NFT avatar prepared as an AR face filter",
+      },
+      {
+        type: "image",
+        src: withBasePath("/images/projects/torum/chubbycub.png"),
+        alt: "ChubbyCub — Torum's mascot character",
       },
     ],
     links: [],
     featured: false,
     accentVariant: "teal",
-    size: "half",
+    size: "full",
   },
   {
     id: "rickshaw-vibes",

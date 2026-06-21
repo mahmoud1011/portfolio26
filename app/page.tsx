@@ -1,7 +1,8 @@
 import { Navbar } from "@/components/navigation/Navbar";
 import { ScrollProgress } from "@/components/shared/ScrollProgress";
 import { ConsoleSignature } from "@/components/shared/ConsoleSignature";
-import { HeroSection } from "@/components/sections/hero/HeroSection";
+import { ScrollCinema } from "@/components/sections/cinema/ScrollCinema";
+import { CinemaSeparator } from "@/components/sections/cinema/CinemaSeparator";
 import { ExperienceRibbon } from "@/components/sections/experience/ExperienceRibbon";
 import { ProjectsSection } from "@/components/sections/projects/ProjectsSection";
 import { SkillsSection } from "@/components/sections/skills/SkillsSection";
@@ -15,7 +16,8 @@ export default function Home() {
       <ScrollProgress />
       <Navbar />
       <main id="main-content">
-        <HeroSection />
+        <ScrollCinema />
+        <CinemaSeparator />
         <ExperienceRibbon />
         <ProjectsSection />
         <SkillsSection />
