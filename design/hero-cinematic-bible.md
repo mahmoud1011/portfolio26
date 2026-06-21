@@ -29,16 +29,19 @@ Grade: **teal-and-orange**, low-key, film grain, shallow depth of field.
 
 ---
 
-## 3. The 4-beat structure (~20s, loopable)
+## 3. The 5-beat structure (~25s, loopable)
 
 | # | Beat | Start frame → End frame | Camera | Beat note |
 |---|---|---|---|---|
 | 1 | **Code assembles you** | dispersed code/wireframe → hero portrait | push-in | particles + C# coalesce into a real human |
 | 2 | **You emit the world** | hero portrait → Rust landscape | super dolly in | studio floods forward into the Rust survival world (gold-accented = the shipped flagship) |
-| 3 | **Match-cut to RYDER** | Rust → RYDER combat | whip-pan | one game world morphs kinetically into the next |
-| 4 | **Reassemble + resolve** | RYDER → hero portrait | pull-out | worlds shatter to code and re-form the creator; clean space for the name title |
+| 3 | **Into Torum** | Rust → Torum KL street | super dolly in | Rust world gives way to the Torum AR-NFT app on a Kuala Lumpur street — over-the-shoulder, ChubbyCub mascot, floating NFT social feed |
+| 4 | **Match-cut to RYDER** | Torum → RYDER combat | whip-pan | the social-app street morphs kinetically into the action-RPG arena |
+| 5 | **Reassemble + resolve** | RYDER → hero portrait | pull-out | worlds shatter to code and re-form the creator; clean space for the name title |
 
-Loop point: beat 4 ends on the hero portrait; beat 1 opens on dispersed code (reads as a deliberate "rebuild" reset).
+Torum keyframe: the user's own finalized "TorumShot" (refined in the Magnific TorumProject space) — real ChubbyCub mascot, real in-app AR face-filter, the user with his actual long curly ponytail (face hidden by the NFT filter), subtle KL street. The two inserted clips (Rust→Torum, Torum→RYDER) replaced the original single Rust→RYDER beat; all other beats were reused untouched.
+
+Loop point: beat 5 ends on the hero portrait; beat 1 opens on dispersed code (reads as a deliberate "rebuild" reset).
 
 ---
 
@@ -60,8 +63,11 @@ Loop point: beat 4 ends on the hero portrait; beat 1 opens on dispersed code (re
 
 | Save as `public/images/hero/…` | Source |
 |---|---|
-| `hero-cinematic.mp4` | **Master, 1080p / 20s / with audio** — https://www.magnific.com/app/creation/l7QhfCAgv9 |
+| `hero-cinematic.mp4` | **Master v2, 1080p / ~25s / with audio (includes Torum)** — https://www.magnific.com/app/creation/745Hz2lJAL |
 | `hero-still.jpg` (poster) | Locked portrait — https://www.magnific.com/app/creation/vuVzAZma47 |
+| `torum-shot.jpg` (project still) | Your finalized TorumShot — https://www.magnific.com/app/creation/IaWGhIAtvE |
+
+> Superseded: the original 4-beat master (no Torum) was `l7QhfCAgv9` — use the v2 above.
 
 Individual beats (optional, for re-editing): assemble, Rust, RYDER, resolve —
 all in the project's media library on the platform.
