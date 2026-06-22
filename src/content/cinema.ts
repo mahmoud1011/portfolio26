@@ -22,11 +22,15 @@ export interface CinemaBeat {
 }
 
 export const HERO_VIDEO = {
-  webm: withBasePath("/images/hero/hero-cinematic.webm"),
+  /**
+   * All-intra (every-frame-keyframe) H.264 master. Encoded this way so scroll
+   * scrubbing can seek to any frame instantly without decoding from a distant
+   * keyframe — the difference between smooth playback and frame-drop "skipping".
+   */
   mp4: withBasePath("/images/hero/hero-cinematic.mp4"),
   poster: withBasePath("/images/hero/hero-still.jpg"),
   /** Measured duration of the encoded master. */
-  duration: 25.334,
+  duration: 25.333,
 };
 
 export const cinemaBeats: CinemaBeat[] = [

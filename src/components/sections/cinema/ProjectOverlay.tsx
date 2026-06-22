@@ -117,7 +117,17 @@ export function ProjectOverlay({ project, onClose }: ProjectOverlayProps) {
               <div className="grid sm:grid-cols-2 gap-3">
                 {project.media.slice(1).map((m, i) => (
                   <div key={i} className="relative aspect-video rounded-md overflow-hidden border border-border-subtle bg-bg-elevated">
-                    {m.type === "video" ? (
+                    {/* YouTube must be checked before native video: some items are
+                        typed "video" but carry only a youtubeId (no src). */}
+                    {m.youtubeId ? (
+                      <iframe
+                        className="h-full w-full"
+                        src={`https://www.youtube.com/embed/${m.youtubeId}`}
+                        title={m.alt}
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowFullScreen
+                      />
+                    ) : m.type === "video" && m.src ? (
                       <video
                         className="h-full w-full object-cover"
                         muted
@@ -126,16 +136,8 @@ export function ProjectOverlay({ project, onClose }: ProjectOverlayProps) {
                         controls
                         poster={m.poster}
                       >
-                        {m.src && <source src={m.src} />}
+                        <source src={m.src} />
                       </video>
-                    ) : m.youtubeId ? (
-                      <iframe
-                        className="h-full w-full"
-                        src={`https://www.youtube.com/embed/${m.youtubeId}`}
-                        title={m.alt}
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                        allowFullScreen
-                      />
                     ) : (
                       m.src && <Image src={m.src} alt={m.alt} fill sizes="(max-width:896px) 100vw, 440px" className="object-cover" />
                     )}

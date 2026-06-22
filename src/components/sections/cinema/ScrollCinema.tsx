@@ -14,6 +14,14 @@ import { cn, withBasePath } from "@/lib/utils";
 
 const specializations = ["Gameplay Systems", "HDRP Rendering", "AI Architecture", "Console Dev"];
 
+/**
+ * How close (in scroll-progress space) a beat must be before its copy panel
+ * reveals. Beats are ~0.2 apart, so 0.05 means the panel fades in within a
+ * comfortable window around each keyframe and stays hidden while the video
+ * scrubs between beats. Tunable.
+ */
+const REVEAL_BAND = 0.05;
+
 function getProject(beat: CinemaBeat): Project | undefined {
   return beat.projectId ? projects.find((p) => p.id === beat.projectId) : undefined;
 }
@@ -23,8 +31,14 @@ export function ScrollCinema() {
   const pinRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const stRef = useRef<ScrollTrigger | null>(null);
+  // Scroll writes the desired video time here; a rAF loop applies it to the
+  // <video> only when the previous seek has finished — this gating is what
+  // keeps an all-intra video buttery instead of backing up a seek queue.
+  const targetTimeRef = useRef(0);
+  const rafRef = useRef<number | null>(null);
 
   const [active, setActive] = useState(0);
+  const [revealed, setRevealed] = useState(true);
   const [enhanced, setEnhanced] = useState(false);
   const [overlay, setOverlay] = useState<Project | null>(null);
 
@@ -42,7 +56,24 @@ export function ScrollCinema() {
   useEffect(() => {
     if (!enhanced || !sectionRef.current || !pinRef.current) return;
     gsap.registerPlugin(ScrollTrigger);
-    const video = videoRef.current;
+
+    // Decouple seeking from scroll updates. Scroll sets targetTimeRef; this loop
+    // moves the video toward it one seek at a time, skipping while a seek is
+    // still in flight (`video.seeking`). On an all-intra encode each seek
+    // resolves in ~1 frame, so the picture tracks the scrollbar smoothly.
+    const FRAME = 1 / 24; // source is 24fps
+    const tick = () => {
+      const v = videoRef.current;
+      if (v && v.readyState >= 2 && !v.seeking) {
+        const target = targetTimeRef.current;
+        if (Math.abs(v.currentTime - target) > FRAME / 2) {
+          v.currentTime = target;
+        }
+      }
+      rafRef.current = requestAnimationFrame(tick);
+    };
+    rafRef.current = requestAnimationFrame(tick);
+
     const ctx = gsap.context(() => {
       const st = ScrollTrigger.create({
         trigger: sectionRef.current!,
@@ -50,20 +81,22 @@ export function ScrollCinema() {
         end: () => "+=" + (n - 1) * window.innerHeight,
         pin: pinRef.current!,
         pinSpacing: true,
-        scrub: 1,
+        // Tight binding (no smoothing lag); the rAF loop handles the actual seek.
+        scrub: true,
+        // Snap only settles the scroll onto a beat after it stops moving, so it
+        // no longer fights the scrub mid-gesture.
         snap: {
           snapTo: fractions,
-          duration: { min: 0.2, max: 0.5 },
+          duration: { min: 0.15, max: 0.5 },
+          delay: 0.08,
           ease: "power1.inOut",
         },
         onUpdate: (self) => {
           const p = self.progress;
-          if (video && video.duration) {
-            const t = Math.min(p * HERO_VIDEO.duration, video.duration - 0.05);
-            // Only seek when settled enough to avoid thrashing.
-            if (Math.abs(video.currentTime - t) > 0.02) video.currentTime = t;
-          }
-          // Nearest beat by progress.
+          const dur = videoRef.current?.duration ?? HERO_VIDEO.duration;
+          targetTimeRef.current = Math.min(p * HERO_VIDEO.duration, dur - 0.05);
+
+          // Nearest beat by progress + how close we are to it.
           let nearest = 0;
           let best = Infinity;
           fractions.forEach((f, i) => {
@@ -74,12 +107,23 @@ export function ScrollCinema() {
             }
           });
           setActive((prev) => (prev === nearest ? prev : nearest));
+
+          // Reveal the copy panel only when settled near a beat; keep the intro
+          // pinned at the very top and the CTA pinned at the very bottom so the
+          // ends are never blank.
+          const atFirst = nearest === 0 && p <= fractions[0] + REVEAL_BAND;
+          const atLast = nearest === n - 1 && p >= fractions[n - 1] - REVEAL_BAND;
+          const settled = best <= REVEAL_BAND || atFirst || atLast;
+          setRevealed((prev) => (prev === settled ? prev : settled));
         },
       });
       stRef.current = st;
     }, sectionRef);
 
-    return () => ctx.revert();
+    return () => {
+      if (rafRef.current !== null) cancelAnimationFrame(rafRef.current);
+      ctx.revert();
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [enhanced, n]);
 
@@ -271,7 +315,6 @@ export function ScrollCinema() {
             preload="auto"
             poster={HERO_VIDEO.poster}
           >
-            <source src={HERO_VIDEO.webm} type="video/webm" />
             <source src={HERO_VIDEO.mp4} type="video/mp4" />
           </video>
 
@@ -288,18 +331,24 @@ export function ScrollCinema() {
           {/* panels */}
           <Container className="relative z-10 h-full">
             <div className="relative h-full flex items-center">
-              {cinemaBeats.map((beat, i) => (
-                <div
-                  key={beat.id}
-                  className={cn(
-                    "absolute inset-y-0 left-0 right-0 flex items-center",
-                    i === active ? "pointer-events-auto" : "pointer-events-none"
-                  )}
-                  aria-hidden={i !== active}
-                >
-                  {renderPanel(beat, i === active)}
-                </div>
-              ))}
+              {cinemaBeats.map((beat, i) => {
+                // A panel is "live" only when its beat is the active one AND the
+                // scroll has settled near that keyframe — between beats every
+                // panel is hidden so only the video shows.
+                const isLive = i === active && revealed;
+                return (
+                  <div
+                    key={beat.id}
+                    className={cn(
+                      "absolute inset-y-0 left-0 right-0 flex items-center",
+                      isLive ? "pointer-events-auto" : "pointer-events-none"
+                    )}
+                    aria-hidden={!isLive}
+                  >
+                    {renderPanel(beat, isLive)}
+                  </div>
+                );
+              })}
             </div>
           </Container>
 
