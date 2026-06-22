@@ -90,7 +90,7 @@ export function AboutSection() {
                     University of Wollongong Malaysia · 2024
                   </p>
                 </div>
-                <div className="bg-bg-secondary p-5">
+                {/* <div className="bg-bg-secondary p-5">
                   <p className="font-mono text-[11px] tracking-widest uppercase text-text-muted mb-1.5">
                     Location
                   </p>
@@ -100,7 +100,7 @@ export function AboutSection() {
                   <p className="text-xs text-text-secondary mt-0.5">
                     Open to remote & relocation
                   </p>
-                </div>
+                </div> */}
               </div>
             </div>
           </AnimateIn>

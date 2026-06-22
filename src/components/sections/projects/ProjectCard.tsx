@@ -1,3 +1,5 @@
+"use client";
+
 import { Tag } from "@/components/shared/Tag";
 import { Button } from "@/components/shared/Button";
 import { AnimateIn } from "@/components/shared/AnimateIn";
