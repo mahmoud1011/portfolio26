@@ -14,6 +14,24 @@ import { cn, withBasePath } from "@/lib/utils";
 
 const specializations = ["Gameplay Systems", "HDRP Rendering", "AI Architecture", "Console Dev"];
 
+// ── Cinema feel — all tunable without restructuring ────────────────────────
+/** Viewport-heights of scroll per beat transition. More = slower, more watchable. */
+const SCROLL_PER_BEAT = 2.2;
+/** Per-frame easing of the video playhead toward the scroll target (0..1).
+ *  Lower = smoother/floatier; higher = snappier. This is what turns a chunky
+ *  wheel flick into continuous, framerate-consistent motion. */
+const LERP = 0.1;
+/** How close (in scroll-progress space) a beat must be before its panel may show.
+ *  Beats are ~0.2 apart in progress space. */
+const REVEAL_BAND = 0.04;
+/** Playhead is "stopped" (transition finished) when within this many seconds of
+ *  its target — used to detect that we've truly settled on a keyframe. */
+const MOVE_EPS = 0.02;
+/** Delay after settling on a beat before its copy fades in (ms). */
+const REVEAL_DELAY = 1000;
+/** Delay after the whole site has loaded before the video arms (ms). */
+const START_DELAY = 1000;
+
 function getProject(beat: CinemaBeat): Project | undefined {
   return beat.projectId ? projects.find((p) => p.id === beat.projectId) : undefined;
 }
@@ -23,8 +41,20 @@ export function ScrollCinema() {
   const pinRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const stRef = useRef<ScrollTrigger | null>(null);
+  // Scroll writes the desired video time into targetTimeRef; a rAF loop eases a
+  // separate playhead (displayedTimeRef) toward it and seeks the video to that.
+  // The easing is what turns a chunky wheel flick into continuous motion, and
+  // the `seeking` gate keeps the all-intra video from backing up a seek queue.
+  const targetTimeRef = useRef(0);
+  const displayedTimeRef = useRef(0);
+  const rafRef = useRef<number | null>(null);
+  // Mirrors of state for the rAF loop (which can't read fresh React state).
+  const armedRef = useRef(false);
+  const settledRef = useRef(false);
+  const revealTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const [active, setActive] = useState(0);
+  const [revealed, setRevealed] = useState(false);
   const [enhanced, setEnhanced] = useState(false);
   const [overlay, setOverlay] = useState<Project | null>(null);
 
@@ -38,48 +68,115 @@ export function ScrollCinema() {
     setEnhanced(okMotion && wide);
   }, []);
 
+  // Arm the cinema only after the entire site has loaded, then a short delay.
+  // Until armed the video stays frozen on its first frame (poster), so nothing
+  // moves on load and there is no startup jump.
+  useEffect(() => {
+    if (!enhanced) return;
+    let timer: ReturnType<typeof setTimeout>;
+    const arm = () => {
+      timer = setTimeout(() => {
+        armedRef.current = true;
+      }, START_DELAY);
+    };
+    if (document.readyState === "complete") arm();
+    else window.addEventListener("load", arm, { once: true });
+    return () => {
+      clearTimeout(timer);
+      window.removeEventListener("load", arm);
+      armedRef.current = false;
+    };
+  }, [enhanced]);
+
   // Build the pinned, scrubbed, beat-snapped timeline.
   useEffect(() => {
     if (!enhanced || !sectionRef.current || !pinRef.current) return;
     gsap.registerPlugin(ScrollTrigger);
-    const video = videoRef.current;
-    const ctx = gsap.context(() => {
-      const st = ScrollTrigger.create({
-        trigger: sectionRef.current!,
-        start: "top top",
-        end: () => "+=" + (n - 1) * window.innerHeight,
-        pin: pinRef.current!,
-        pinSpacing: true,
-        scrub: 1,
-        snap: {
-          snapTo: fractions,
-          duration: { min: 0.2, max: 0.5 },
-          ease: "power1.inOut",
-        },
-        onUpdate: (self) => {
-          const p = self.progress;
-          if (video && video.duration) {
-            const t = Math.min(p * HERO_VIDEO.duration, video.duration - 0.05);
-            // Only seek when settled enough to avoid thrashing.
-            if (Math.abs(video.currentTime - t) > 0.02) video.currentTime = t;
+
+    const FRAME = 1 / 24; // source is 24fps
+
+    // Smoothing + seek loop. Scroll only writes targetTimeRef; here we ease a
+    // separate playhead toward it every frame and seek the (all-intra) video to
+    // that eased value. This is what makes a fast wheel flick play out as
+    // continuous motion instead of jumping straight to the next keyframe.
+    const tick = () => {
+      const v = videoRef.current;
+      if (v && v.readyState >= 2) {
+        if (!armedRef.current) {
+          // Not armed yet → hold on the first frame.
+          displayedTimeRef.current = 0;
+        } else {
+          const target = targetTimeRef.current;
+          displayedTimeRef.current += (target - displayedTimeRef.current) * LERP;
+          const displayed = displayedTimeRef.current;
+          if (!v.seeking && Math.abs(v.currentTime - displayed) > FRAME / 2) {
+            v.currentTime = displayed;
           }
-          // Nearest beat by progress.
+
+          // Settle = playhead has caught up to the target (transition finished)
+          // AND we're sitting near a beat. Reveal the panel REVEAL_DELAY after
+          // that; hide instantly the moment a new transition starts.
+          const dur = v.duration || HERO_VIDEO.duration;
+          const pDisp = displayed / dur;
           let nearest = 0;
           let best = Infinity;
           fractions.forEach((f, i) => {
-            const d = Math.abs(f - p);
+            const d = Math.abs(f - pDisp);
             if (d < best) {
               best = d;
               nearest = i;
             }
           });
-          setActive((prev) => (prev === nearest ? prev : nearest));
+          const settledNow = Math.abs(target - displayed) < MOVE_EPS && best <= REVEAL_BAND;
+          if (settledNow !== settledRef.current) {
+            settledRef.current = settledNow;
+            if (settledNow) {
+              setActive(nearest);
+              revealTimerRef.current = setTimeout(() => setRevealed(true), REVEAL_DELAY);
+            } else {
+              if (revealTimerRef.current) {
+                clearTimeout(revealTimerRef.current);
+                revealTimerRef.current = null;
+              }
+              setRevealed(false);
+            }
+          }
+        }
+      }
+      rafRef.current = requestAnimationFrame(tick);
+    };
+    rafRef.current = requestAnimationFrame(tick);
+
+    const ctx = gsap.context(() => {
+      const st = ScrollTrigger.create({
+        trigger: sectionRef.current!,
+        start: "top top",
+        // Generous scroll distance so each ~5s beat transition is watchable.
+        end: () => "+=" + (n - 1) * SCROLL_PER_BEAT * window.innerHeight,
+        pin: pinRef.current!,
+        pinSpacing: true,
+        // Exact progress tracking; smoothing is done on the playhead in `tick`.
+        scrub: true,
+        // Gentle, eased settle onto the nearest beat once scrolling stops.
+        snap: {
+          snapTo: fractions,
+          duration: { min: 0.3, max: 0.7 },
+          delay: 0.1,
+          ease: "power2.inOut",
+        },
+        onUpdate: (self) => {
+          const dur = videoRef.current?.duration ?? HERO_VIDEO.duration;
+          targetTimeRef.current = Math.min(self.progress * HERO_VIDEO.duration, dur - 0.05);
         },
       });
       stRef.current = st;
     }, sectionRef);
 
-    return () => ctx.revert();
+    return () => {
+      if (rafRef.current !== null) cancelAnimationFrame(rafRef.current);
+      if (revealTimerRef.current) clearTimeout(revealTimerRef.current);
+      ctx.revert();
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [enhanced, n]);
 
@@ -271,7 +368,6 @@ export function ScrollCinema() {
             preload="auto"
             poster={HERO_VIDEO.poster}
           >
-            <source src={HERO_VIDEO.webm} type="video/webm" />
             <source src={HERO_VIDEO.mp4} type="video/mp4" />
           </video>
 
@@ -288,18 +384,24 @@ export function ScrollCinema() {
           {/* panels */}
           <Container className="relative z-10 h-full">
             <div className="relative h-full flex items-center">
-              {cinemaBeats.map((beat, i) => (
-                <div
-                  key={beat.id}
-                  className={cn(
-                    "absolute inset-y-0 left-0 right-0 flex items-center",
-                    i === active ? "pointer-events-auto" : "pointer-events-none"
-                  )}
-                  aria-hidden={i !== active}
-                >
-                  {renderPanel(beat, i === active)}
-                </div>
-              ))}
+              {cinemaBeats.map((beat, i) => {
+                // A panel is "live" only when its beat is the active one AND the
+                // scroll has settled near that keyframe — between beats every
+                // panel is hidden so only the video shows.
+                const isLive = i === active && revealed;
+                return (
+                  <div
+                    key={beat.id}
+                    className={cn(
+                      "absolute inset-y-0 left-0 right-0 flex items-center",
+                      isLive ? "pointer-events-auto" : "pointer-events-none"
+                    )}
+                    aria-hidden={!isLive}
+                  >
+                    {renderPanel(beat, isLive)}
+                  </div>
+                );
+              })}
             </div>
           </Container>
 
